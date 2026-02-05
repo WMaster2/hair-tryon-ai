@@ -37,14 +37,13 @@ async def tryon(
             f.write(style_resp.content)
             style_path = f.name
 
-        # 3. Convert both images to base64
+        # 3. Convert images to base64
         with open(user_path, "rb") as f:
             user_b64 = base64.b64encode(f.read()).decode()
 
         with open(style_path, "rb") as f:
             style_b64 = base64.b64encode(f.read()).decode()
 
-        # 4. Prompt
         prompt = (
             "Create a photorealistic portrait of the SAME person from the first image. "
             "Preserve face identity, skin tone, age, expression, lighting and background. "
@@ -53,7 +52,6 @@ async def tryon(
             "Do NOT change clothing, makeup, jewelry, or head shape."
         )
 
-        # 5. OpenAI Images API
         payload = {
             "model": "gpt-image-1",
             "prompt": prompt,
@@ -65,7 +63,7 @@ async def tryon(
         }
 
         r = requests.post(
-            "https://api.openai.com/v1/images",
+            "https://api.openai.com/v1/images/generations",
             headers={
                 "Authorization": f"Bearer {OPENAI_API_KEY}",
                 "Content-Type": "application/json"
